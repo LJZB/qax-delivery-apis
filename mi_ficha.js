@@ -35,3 +35,5 @@ console.log('Cantidad de hobbies:', hobbies.length);
 // 7. Aumentar edad en 1 (como si cumpliera años)
 age = age + 1;
 console.log('Nueva edad:', age);
+
+// Stage 1 completed
