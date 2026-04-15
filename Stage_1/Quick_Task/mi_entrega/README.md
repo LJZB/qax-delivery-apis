@@ -1,16 +1,20 @@
-# Quick Task
+# Quick Task - Mi Ficha
 
-## ¿Qué es?
-Breve ejercicio de práctica rápida (10–30 min) para afianzar conceptos. Forma parte del **Stage_1** de la mentoría.
+## Objetivo
+Implementar un archivo JavaScript que contenga información personal utilizando variables y/o estructuras básicas.
 
-## Formato esperado de entrega
-- 📁 Carpeta: `Stage_1/Quick_Task/tu-entrega-aqui`
-- 🗒️ README.md por cada entrega con:
-  - **Título de la entrega**
-  - **Objetivo / Historia de usuario**
-  - **Criterios de aceptación**
-  - **Estrategia de prueba** (casos, datos, precondiciones)
-  - **Ejecución** (comandos o pasos)
-  - **Resultados** (evidencias, logs, capturas, reporte HTML/JSON)
-- 🧪 Código/archivos de soporte en subcarpetas (`src`, `tests`, `resources`, etc.) según la tecnología.
-- 🖼️ Evidencias en `evidencias/` cuando aplique.
+## Historia de usuario
+Como tester, quiero crear un script simple en JavaScript para representar información personal, con el fin de practicar fundamentos del lenguaje.
+
+## Criterios de aceptación
+- Existe el archivo `mi_ficha.js`
+- El script contiene información estructurada (variables u objeto)
+- El código se ejecuta sin errores
+
+## Estrategia de prueba
+- Ejecutar el script usando Node.js
+- Validar la salida en consola
+
+## Ejecución
+```bash
+node mi_ficha.js
