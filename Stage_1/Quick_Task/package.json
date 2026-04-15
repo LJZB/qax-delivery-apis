@@ -1,0 +1,16 @@
+{
+  "name": "quick_task",
+  "version": "1.0.0",
+  "description": "Breve ejercicio de práctica rápida (10–30 min) para afianzar conceptos. Forma parte del **Stage_1** de la mentoría.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1"
+  }
+}
