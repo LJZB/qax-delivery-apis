@@ -1,5 +1,0 @@
-Usuario registrado
-Usuario autenticado
-Usuario con:
-    cuentas existentes
-    movimientos registrados
