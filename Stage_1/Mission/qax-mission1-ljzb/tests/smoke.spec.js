@@ -2,11 +2,10 @@ import { test, expect, request } from '@playwright/test';
 
 test.describe('Smoke Test - Homebanking', () => {
   const baseURL = 'https://homebanking-demo.onrender.com';
-  let token;
   let userEmail;
   let userAccount;
   let userPassword = 'mipassword123';
-
+  let token;
 
   test('Flujo crítico E2E', async ({request}) => {
     const timestamp = Date.now();
@@ -34,7 +33,7 @@ test.describe('Smoke Test - Homebanking', () => {
     });
     expect(login.status()).toBe(200);
     const loginBody = await login.json();
-    const token = loginBody.token; //Se obtiene el token del usuario
+    token = loginBody.token; //Se obtiene el token del usuario
     // console.log(token)
     //Fin de login
 
@@ -46,22 +45,52 @@ test.describe('Smoke Test - Homebanking', () => {
     });
     expect(dashboard.status()).toBe(200);
     const dashboardBody = await dashboard.json();
-    const accountId = dashboardBody.data.accounts[0].id; //Se obtiene el id de la cuenta para agregarle una tarjeta
+    const firstAccountId = dashboardBody.data.accounts[0].id; //Se obtiene el id de la cuenta para agregarle una tarjeta
+    const secondAccountId = dashboardBody.data.accounts[1].id; //Se obtiene el id de la cuenta para agregarle una tarjeta
     // console.log(accountId);
     //Fin de dashboard
 
     // Inicio de creación de tarjeta
-    const tarjeta = await request.post(`${baseURL}/tarjetas`, {
+    const tarjeta = await request.post(`${baseURL}/tarjetas/`, {
     headers: {
       Authorization: `Bearer ${token}`
     },
     data: {
-      id_cuenta_asociada: accountId,
+      id_cuenta_asociada: firstAccountId,
       marca: "Mastercard",
-      tipo: "Crédito"
+      tipo: "Débito"
     }
     });
-  //  Fin de creación de tarjeta
+    expect(tarjeta.status()).toBe(200);
+    // Fin de creación de tarjeta
 
+    // Inicio listar tarjetas
+    const listarT = await request.get(`${baseURL}/tarjetas/`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    });
+    expect(listarT.status()).toBe(200);
+    //const bodyTarjetas = await listarT.json();
+    // Fin listar tarjetas
+
+    // Inicio de transferencia
+    const transferencia = await request.post(`${baseURL}/transferencias/`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    data: {
+      cuenta_destino: secondAccountId,
+      cuenta_origen: firstAccountId,
+      monto: 100,
+      motivo: "Varios",
+      tipo: "propia"
+    }
+    });
+    expect(transferencia.status()).toBe(200);
+    const transferenciaBody = await transferencia.json();
+    const transferenciaMensaje = transferenciaBody.transaccion.id;
+    console.log(transferenciaMensaje);
+    // Fin de transferencia
   });
 });
