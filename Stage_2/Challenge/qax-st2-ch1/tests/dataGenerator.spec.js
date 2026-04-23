@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { generarUsuario } = require('../utils/dataGenerator.js'); //causa error
+const { generarUsuario } = require('../utils/dataGenerator.js'); 
 // const faker = require('@faker-js/faker').faker;
 
 test('debe generar un usuario válido', () => {
