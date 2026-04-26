@@ -2,5 +2,6 @@ node_modules/
 .env
 test-results/
 playwright-report/
-../../package-lock.json
-../../package.json
+playwright-report/
+Stage_3/01_Warmup/
+Stage_2/Challenge/qax-st2-ch1/
