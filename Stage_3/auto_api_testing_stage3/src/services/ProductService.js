@@ -45,8 +45,8 @@ class ProductService {
   }
 
   //Put
-  async updateProduct(productRequest) {
-    const response = await this.request.put(this.endpoint, {
+  async updateProduct(id, productRequest) {
+    const response = await this.request.put(`${this.endpoint}/${id}`, {
       data: productRequest.toJSON(),
     });
     const body = await response.json();
@@ -57,9 +57,9 @@ class ProductService {
   }
 
   //Patch
-  async patchProduct(id) {
-    const response = await this.request.patch(this.endpoint, {
-      data: productRequest.toJSON(),
+  async patchProduct(id, fields) {
+    const response = await this.request.patch(`${this.endpoint}/${id}`, {
+      data: fields,
     });
     const body = await response.json();
     return {
