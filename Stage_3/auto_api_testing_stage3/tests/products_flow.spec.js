@@ -32,7 +32,7 @@ test.describe("Products API — Flujo completo @regression", () => {
 
     await test.step("POST: crear producto inicial", async () => {
       const { status, body } = await productService.createProduct(initialProduct);
-      console.log(initialProduct.toJSON());
+      // console.log(initialProduct.toJSON());
       expect(status).toBe(200);
       expect(body.hasValidId()).toBeTruthy();
       expect(body.name).toBe("Lenovo Legion 5 Pro");
@@ -52,8 +52,8 @@ test.describe("Products API — Flujo completo @regression", () => {
 
     await test.step("PUT: reemplazar producto completo", async () => {
       const { status, body } = await productService.updateProduct(productId, replacedProduct);
-      console.log(status);
-      console.log(body);
+      // console.log(status);
+      // console.log(body);
       expect(status).toBe(200);
       expect(body.name).toBe("HP Omen 16");
       expect(body.getPrice()).toBe(1300);
