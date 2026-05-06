@@ -28,9 +28,12 @@ https://api.escuelajs.co/docs
 
 ```txt
 Stage_2/Mission/
+├── fixtures/
+│   └── test-image.png
 ├── services/
 │   ├── AuthService.js
 │   ├── UserService.js
+│   ├── FileService.js
 │   ├── CategoryService.js
 │   └── ProductService.js
 ├── tests/
@@ -52,9 +55,10 @@ El flujo principal implementado valida:
 ```txt
 1. Login para obtener token.
 2. Crear usuario dinámico.
-3. Crear categoría dinámica.
-4. Crear producto asociado a la categoría creada.
-5. Consultar el producto creado.
+3. Subir imagen usando Files upload.
+4. Crear categoría dinámica usando la imagen subida.
+5. Crear producto asociado a la categoría creada usando la imagen subida.
+6. Consultar el producto creado.
 ```
 
 ## Criterios cubiertos
@@ -68,20 +72,33 @@ El flujo principal implementado valida:
 
 ### Users
 
+- Se consume `POST /users`.
 - Se crea un usuario dinámico con Faker.
 - Se valida que el response retorne un `id`.
 - Se valida que el email retornado coincida con el enviado.
 
+### Files
+
+- Se consume `POST /files/upload`.
+- Se sube una imagen local desde `fixtures/test-image.png`.
+- Se valida que el response retorne `location`.
+- La URL retornada se reutiliza como imagen de la categoría y del producto.
+
 ### Categories
 
+- Se consume `POST /categories`.
 - Se crea una categoría dinámica.
 - Se valida que el response retorne un `id`.
 - Se valida que el nombre retornado coincida con el enviado.
+- Se usa la URL retornada por Files como imagen de la categoría.
 
 ### Products
 
+- Se consume `POST /products`.
+- Se consume `GET /products/{id}`.
 - Se crea un producto asociado a la categoría creada.
 - Se envía token Bearer en la creación del producto.
+- Se usa la URL retornada por Files como imagen del producto.
 - Se valida que el response tenga `id`, `title`, `price` y `category.id`.
 - Se consulta el producto creado por ID.
 - Se valida que los datos consultados coincidan con los datos creados.
@@ -98,6 +115,7 @@ Servicios implementados:
 ```txt
 AuthService      -> login y perfil
 UserService      -> creación y consulta de usuarios
+FileService      -> carga de archivos
 CategoryService  -> creación y consulta de categorías
 ProductService   -> creación y consulta de productos
 ```
@@ -113,6 +131,18 @@ generarUsuario()
 generarCategoria()
 generarProducto(categoryId)
 ```
+
+### Fixtures
+
+La carpeta `fixtures/` contiene archivos locales usados durante la ejecución del test.
+
+Archivo incluido:
+
+```txt
+fixtures/test-image.png
+```
+
+Este archivo se utiliza para validar el endpoint de carga de archivos y reutilizar la URL generada en categorías y productos.
 
 ### Test
 
@@ -131,6 +161,16 @@ USER_PASSWORD=password_demo
 ```
 
 El archivo `.env` no debe subirse al repositorio.
+
+## Configuración de Playwright
+
+La configuración usa `baseURL` desde `.env`.
+
+No se define `Content-Type` globalmente porque el flujo incluye `multipart/form-data` para Files upload.  
+Playwright asigna automáticamente el header correcto según el tipo de request:
+
+- `data` para JSON.
+- `multipart` para subida de archivos.
 
 ## Archivos ignorados por Git
 
@@ -167,4 +207,4 @@ npx playwright show-report
 
 ## Resultado
 
-El flujo E2E fue ejecutado correctamente, validando el encadenamiento de datos dinámicos entre Auth, Users, Categories y Products.
+El flujo E2E fue ejecutado correctamente, validando el encadenamiento de datos dinámicos entre Auth, Users, Files, Categories y Products.

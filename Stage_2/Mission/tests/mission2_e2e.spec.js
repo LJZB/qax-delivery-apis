@@ -6,6 +6,7 @@ const { AuthService } = require("../services/AuthService");
 const { UserService } = require("../services/UserService");
 const { CategoryService } = require("../services/CategoryService");
 const { ProductService } = require("../services/ProductService");
+const { FileService } = require("../services/FileService");
 
 // Importamos los generadores de datos dinámicos.
 const { generarUsuario, generarCategoria, generarProducto } = require("../utils/dataGenerator");
@@ -18,6 +19,7 @@ test.describe("Mission 2 - E2E API Testing Platzi Fake Store", () => {
     const userService = new UserService(request);
     const categoryService = new CategoryService(request);
     const productService = new ProductService(request);
+    const fileService = new FileService(request);
 
     // Variables compartidas dentro del flujo.
     let token;
@@ -27,6 +29,7 @@ test.describe("Mission 2 - E2E API Testing Platzi Fake Store", () => {
     let createdCategory;
     let productData;
     let createdProduct;
+    let uploadedImageUrl;
 
     await test.step("Login: obtener token de autenticación", async () => {
       const { status, body } = await authService.login(process.env.USER_EMAIL, process.env.USER_PASSWORD);
@@ -49,8 +52,17 @@ test.describe("Mission 2 - E2E API Testing Platzi Fake Store", () => {
       createdUser = body;
     });
 
+    await test.step("Files: subir imagen para usarla en categoría y producto", async () => {
+      const { status, body } = await fileService.uploadFile("fixtures/test-image.png");
+      expect([200, 201]).toContain(status);
+      expect(body.location).toBeTruthy();
+
+      uploadedImageUrl = body.location;
+    });
+
     await test.step("Categories: crear categoría dinámica", async () => {
       categoryData = generarCategoria();
+      categoryData.image = uploadedImageUrl;
 
       const { status, body } = await categoryService.createCategory(categoryData);
 
@@ -63,6 +75,7 @@ test.describe("Mission 2 - E2E API Testing Platzi Fake Store", () => {
 
     await test.step("Products: crear producto asociado a la categoría", async () => {
       productData = generarProducto(createdCategory.id);
+      productData.images = [uploadedImageUrl];
 
       const { status, body } = await productService.createProduct(productData, token);
 
