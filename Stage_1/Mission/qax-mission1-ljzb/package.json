@@ -1,0 +1,15 @@
+{
+  "name": "qax-mission1-ljzb",
+  "version": "1.0.0",
+  "description": "Breve ejercicio de ejercicios end-to-end con varios casos de prueba. Forma parte del **Stage_1** de la mentoría.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}
