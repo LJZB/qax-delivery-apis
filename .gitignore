@@ -8,3 +8,10 @@ test-results/
 # Stage anteriores
 Stage_2/
 Stage_3/01_Warmup/
+
+# Env
+.env
+.env.*
+
+# Build
+dist/
