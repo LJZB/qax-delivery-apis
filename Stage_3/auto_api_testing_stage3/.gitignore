@@ -1,0 +1,7 @@
+node_modules/
+.env
+test-results/
+playwright-report/
+playwright-report/
+Stage_3/01_Warmup/
+Stage_2/Challenge/qax-st2-ch1/

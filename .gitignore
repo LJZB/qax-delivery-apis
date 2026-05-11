@@ -1,3 +1,10 @@
+# Node
 node_modules/
-test-results/
+
+# Playwright
 playwright-report/
+test-results/
+
+# Stage anteriores
+Stage_2/
+Stage_3/01_Warmup/
